@@ -177,8 +177,15 @@
     <Compile Include="Migrations\201906030235082_InitialCreate.Designer.cs">
       <DependentUpon>201906030235082_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906030421466_InitialModel.cs" />
+    <Compile Include="Migrations\201906030421466_InitialModel.Designer.cs">
+      <DependentUpon>201906030421466_InitialModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -260,6 +267,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201906030235082_InitialCreate.resx">
       <DependentUpon>201906030235082_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906030421466_InitialModel.resx">
+      <DependentUpon>201906030421466_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
