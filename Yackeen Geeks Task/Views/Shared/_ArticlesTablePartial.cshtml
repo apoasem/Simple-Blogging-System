@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Yackeen_Geeks_Task.Models.Article>
+
+    @*<div class="table-responsive-sm" id="articlesTableContainer">*@
+        <table class="table table-bordered table-hover" id="articlesTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImageUrl)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PublishDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Author.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category.Name)
+                    </th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @if (@item.ImageUrl.Length > 20)
+                            {
+                                @(item.ImageUrl.Substring(0, 20) + "..");
+                            }
+                            else
+                            {
+
+                                @item.ImageUrl;
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PublishDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Author.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            <a class="fa fa-edit fa-lg control-icon mr-1"  href="@Url.Action("Edit", "Articles", new { id = item.Id })"></a>
+                            
+                            <a class="fa fa-info-circle text-info fa-lg control-icon mr-1"  href="@Url.Action("Details", "Articles", new { id = item.Id })"></a>
+
+                            <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-article-id="@item.Id" onclick="deleteArticle(this)"></a>
+
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            <a data-article-id="@item.Id" onclick="deleteArticle(this)">Delete</a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    @*</div>*@

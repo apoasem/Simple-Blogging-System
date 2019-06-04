@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace Yackeen_Geeks_Task
 {
@@ -24,7 +23,18 @@ namespace Yackeen_Geeks_Task
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/datatables.min.css",
+                      "~/Content/fontawesome-all.min.css",
+                      "~/Scripts/jquery-confirm/dist/jquery-confirm.min.css",
+                      "~/Content/bootstrap-datepicker.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/javaScript").Include(
+                "~/Scripts/bootstrap-datepicker.min.js",
+                "~/Scripts/datatables.min.js",
+                "~/Scripts/jquery-confirm/dist/jquery-confirm.min.js",
+                "~/Scripts/jquery.unobtrusive-ajax.min.js",
+                "~/Scripts/main.js"));
         }
     }
 }

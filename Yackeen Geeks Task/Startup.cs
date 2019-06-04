@@ -39,7 +39,8 @@ namespace Yackeen_Geeks_Task
                 var user = new ApplicationUser
                 {
                     UserName = "mohamedasemsyam@outlook.com",
-                    Email = "mohamedasemsyam@outlook.com"
+                    Email = "mohamedasemsyam@outlook.com",
+                    Name = "mohamed"
                 };
 
                 var userCreated = userManager.Create(user, "Qwer@admin1996");

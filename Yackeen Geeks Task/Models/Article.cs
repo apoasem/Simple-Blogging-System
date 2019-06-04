@@ -20,10 +20,10 @@ namespace Yackeen_Geeks_Task.Models
         [Required]
         public DateTime PublishDate { get; set; }
 
-        public string UserId { get; set; }
+        public string AuthorId { get; set; }
 
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
+        [ForeignKey("AuthorId")]
+        public ApplicationUser Author { get; set; }
 
         public int CategoryId { get; set; }
 

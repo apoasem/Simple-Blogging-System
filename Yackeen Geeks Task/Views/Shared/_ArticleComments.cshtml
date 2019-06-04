@@ -1,0 +1,24 @@
+﻿@model Yackeen_Geeks_Task.ViewModels.ArticleDetailsViewModel
+
+@foreach (var comment in Model.CommentsList)
+{
+    <div class="comment d-flex justify-content-between">
+        <div>
+            <h2>
+                @comment.VisitorName
+            </h2>
+
+            <p class="text-muted">
+                @comment.Date
+            </p>
+
+            <p class="lead">
+                @comment.Content
+            </p>
+        </div>
+        <div>
+            <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-comment-id="@comment.Id" onclick="deleteComment(this);"></a>
+        </div>
+    </div>
+}
+

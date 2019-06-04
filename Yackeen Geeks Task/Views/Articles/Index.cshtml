@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Yackeen_Geeks_Task.Models.Article>
+@{
+    ViewBag.Title = "Articles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Articles</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div>
+    @Html.Partial("_ArticlesTablePartial", Model)
+</div>

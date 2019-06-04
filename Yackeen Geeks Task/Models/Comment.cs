@@ -9,16 +9,16 @@ namespace Yackeen_Geeks_Task.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Comment")]
         public string Content { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
 
-        public string UserId { get; set; }
+        [Required]
+        public string VisitorName { get; set; }
 
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
-
+        [Required]
         public int ArticleId { get; set; }
 
         [ForeignKey("ArticleId")]

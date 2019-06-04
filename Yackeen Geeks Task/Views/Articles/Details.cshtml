@@ -1,0 +1,74 @@
+﻿@model Yackeen_Geeks_Task.ViewModels.ArticleDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <img class="card-img-top img-fluid" src="~/Uploads/@Model.Article.ImageUrl" alt="Card image cap" style="height: 300px">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Article.Title</h4>
+        <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">
+
+            <span>
+                category: <span class="text-primary">@Model.Article.Category.Name</span>
+
+                written by: <span class="text-info"> @Model.Article.Author.UserName </span>
+            </span>
+
+
+            <span>published on:  <span class="text-secondary"> @Model.Article.PublishDate </span> </span>
+        </h6>
+        <p class="card-text">
+            @Model.Article.Description
+        </p>
+
+        <hr />
+
+        <h3 class="text-warning">Comments</h3>
+
+        <div class="comments flex-column">
+
+            <div id="oldComments">
+                @Html.Partial("_ArticleComments", Model)
+            </div>
+
+            @using (Html.BeginForm("Create", "Comments", FormMethod.Post, new { onsubmit= "return postComment(this);" } ))
+            {
+                @Html.HiddenFor(model => model.ArticleId)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.VisitorName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.VisitorName, new { @class = "form-control", @id = "commentVisitorName" })
+                        @Html.ValidationMessageFor(model => model.VisitorName, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Content, new { @class = "form-control", @id = "commentContent" })
+                        @Html.ValidationMessageFor(model => model.Content, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="comment-spinner-loader" class="d-none">
+                    <img src="~/Images/small-spinner.gif"/>
+                </div>
+
+                <div class="form-group" id="submitCommentButton">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Comment" class="btn btn-primary" />
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

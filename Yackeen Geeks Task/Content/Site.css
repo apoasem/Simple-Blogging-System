@@ -1,14 +1,13 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
+﻿/* Set padding to keep content from hitting the edges */
 .body-content {
+    padding-top: 20px;
     padding-left: 15px;
     padding-right: 15px;
 }
 
+.page {
+    min-height: 800px;
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -21,4 +20,21 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+footer p {
+    margin: 0;
+    padding: 20px;
+}
+
+footer {
+    background: #313131;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.comment {
+    background: #e3e3e3;
+    padding: 20px;
+    margin-bottom: 20px;
 }
