@@ -32,6 +32,7 @@ namespace Yackeen_Geeks_Task
             bundles.Add(new ScriptBundle("~/bundles/javaScript").Include(
                 "~/Scripts/bootstrap-datepicker.min.js",
                 "~/Scripts/datatables.min.js",
+                "~/Scripts/notify.min.js",
                 "~/Scripts/jquery-confirm/dist/jquery-confirm.min.js",
                 "~/Scripts/jquery.unobtrusive-ajax.min.js",
                 "~/Scripts/main.js"));

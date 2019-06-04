@@ -4,17 +4,81 @@
     $("#articlesTable").DataTable();
     $("#categoriesTable").DataTable();
 
-    $("#submitCommentButton").bind("ajaxStart", function () {
-        $("#comment-spinner-loader").removeClass("d-none");
-        $("#submitCommentButton").addClass("d-none");
+    $(document).bind("ajaxStart", function () {
+        $("#spinner-loader").removeClass("d-none");
     }).bind("ajaxStop", function () {
-        $("#comment-spinner-loader").addClass("d-none");
-        $("#submitCommentButton").removeClass("d-none");
-    })
+        $("#spinner-loader").addClass("d-none")
+    });
 
 });
 
+
+function renameTabTitle(tabId, title) {
+    $("#" + tabId).html(title);
+}
+
+
+function redirectToEditCategoryTab(url) {
+    $.ajax({
+        url: url,
+        method: "GET",
+        success: function (response) {
+            $("#categoryTab").html(response);
+            $('.datepicker').datepicker(); //Initialise date pickers
+            $("#categoryConfigTab").tab("show");
+        },
+        error: function () {
+            $.notify("Some thing went wrong!", "error");
+        }
+    })
+}
+
+function redirectToEditArticleTab(url) {
+    $.ajax({
+        url: url,
+        method: "GET",
+        success: function (response) {
+            $("#articleTab").html(response);
+            $('.datepicker').datepicker(); //Initialise date pickers
+            $("#articleConfigTab").tab("show");
+        },
+        error: function () {
+            $.notify("Some thing went wrong!", "error");
+        }
+    })
+}
+
+function refreshCategoryForm() {
+    $.ajax({
+        url: "/Categories/Create",
+        method: "GET",
+        success: function (response) {
+            $("#categoryTab").html(response);
+            $('.datepicker').datepicker(); //Initialise date pickers
+        },
+        error: function () {
+            $.notify("Some thing went wrong!", "error");
+        }
+    });
+}
+
+function refreshArticleForm() {
+    $.ajax({
+        url: "/Articles/Create",
+        method: "GET",
+        success: function (response) {
+            $("#articleTab").html(response);
+            $('.datepicker').datepicker(); //Initialise date pickers
+        },
+        error: function () {
+            $.notify("Some thing went wrong!", "error");
+        }
+    });
+}
+
+
 function postCategory(form) {
+
     $.validator.unobtrusive.parse(form);
 
     if ($(form).valid()) {
@@ -25,14 +89,24 @@ function postCategory(form) {
             url: form.action,
             method: form.method,
             data: formData,
-            processData: false,
             contentType: false,
+            processData: false,
             success: function (response) {
-                $("#categoriesTable").html(response);
-                window.location.href = "/Categories/";
+
+                if (response.toString().search("table") == -1) {
+                    $("#categoryTab").html(response);
+                    return false;
+                }
+
+                $("#categoriesTableContainer").html(response);
+                $("#allCategoriesTab").tab("show");
+                renameTabTitle('categoryConfigTab', 'New Category')
+                refreshCategoryForm(); // refresh the form
+                $("#categoriesTable").DataTable();
+                $.notify("Category added successfully", "success");
             },
             error: function () {
-                alert("error");
+                $.notify("Some thing went wrong!", "error");
             }
         })
 
@@ -61,11 +135,17 @@ function postArticle(form) {
             processData: false,
             contentType: false,
             success: function (response) {
-                $("#articlesTable").html(response);
-                window.location.href = "/Articles/";
+                alert(response);
+                console.log(response);
+                //$("#articlesTableContainer").html(response);
+                //$("#allArticlesTab").tab("show");
+                //renameTabTitle('articleConfigTab', 'New Article')
+                //refreshArticleForm(); // refresh the form
+                //$("#articlesTable").DataTable();
+                //$.notify("Article added successfully", "success");
             },
             error: function () {
-                alert("error");
+                $.notify("Some thing went wrong!", "error");
             }
         });
 
@@ -94,7 +174,7 @@ function deleteCategory(category) {
                         $.alert('Category Deleted Successfully!');
                     },
                     error: function () {
-                        $.notify("some thing went wrong!", "error");
+                        $.notify("Some thing went wrong!", "error");
                     }
                 })
             },
@@ -110,9 +190,6 @@ function deleteArticle(article) {
     var articleId = $(article).attr("data-article-id");
 
     var row = $(article).closest("tr");
-
-    console.log(articleId);
-    console.log(row);
 
     $.confirm({
         title: 'Delete Article',
@@ -140,7 +217,7 @@ function deleteArticle(article) {
 }
 
 function showImagePreview(imageUploader) {  
-    console.log("change");
+
     if (imageUploader.files && imageUploader.files[0]) {
         $(".imageFileError").empty();
 
@@ -162,10 +239,9 @@ function filterArticlesByCategory(filter) {
         contentType: false,
         success: function (response) {
             $("#articlesContainer").html(response);
-            console.log("success");
         },
         error: function () {
-            alert("error");
+            $.notify("Some thing went wrong!", "error");
         }
     });
 }
@@ -189,7 +265,7 @@ function postComment(form) {
                 resetForm();
             },
             error: function () {
-                alert("error");
+                $.notify("Some thing went wrong!", "error");
             }
         });
     }
@@ -206,9 +282,6 @@ function deleteComment(comment) {
     var commentId = $(comment).attr("data-comment-id");
 
     var commentDiv = $(comment).closest("div.comment");
-
-    console.log(commentId);
-    console.log(commentDiv);
 
     $.confirm({
         title: 'Delete Comment',

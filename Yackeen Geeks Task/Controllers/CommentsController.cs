@@ -14,27 +14,10 @@ namespace Yackeen_Geeks_Task.Controllers
         {
             db = new ApplicationDbContext();
         }
-        // GET: Comments
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Comments/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Comments/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Comments/Create
         [HttpPost]
-        public PartialViewResult Create(Comment comment)
+        public ActionResult Create(Comment comment)
         {
             comment.Date = DateTime.Now;
 
@@ -61,28 +44,6 @@ namespace Yackeen_Geeks_Task.Controllers
             };
 
             return PartialView("_ArticleComments", viewModel);
-        }
-
-        // GET: Comments/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Comments/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // POST: Comments/Delete/5

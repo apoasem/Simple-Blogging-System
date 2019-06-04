@@ -10,6 +10,8 @@ namespace Yackeen_Geeks_Task.Controllers
     [Authorize(Roles = "Admins")]
     public class CategoriesController : Controller
     {
+        public static string oldCategoryName;
+
         private readonly ApplicationDbContext db;
 
         public CategoriesController()
@@ -21,21 +23,6 @@ namespace Yackeen_Geeks_Task.Controllers
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
-        }
-
-        // GET: Categories/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
         }
 
         // GET: Categories/Create
@@ -55,6 +42,7 @@ namespace Yackeen_Geeks_Task.Controllers
 
             if (categoriesExists)
             {
+                ViewBag.message = "category Name Aready Exists";
                 return View(category);
             }
 
@@ -77,11 +65,16 @@ namespace Yackeen_Geeks_Task.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Category category = db.Categories.Find(id);
+
+            oldCategoryName = category.Name;
+
             if (category == null)
             {
                 return HttpNotFound();
             }
+
             return View(category);
         }
 
@@ -92,6 +85,18 @@ namespace Yackeen_Geeks_Task.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Category category)
         {
+            if (oldCategoryName != category.Name)
+            {
+                var categoriesExists = db.Categories.Any(c => c.Name.Contains(category.Name));
+
+                if (categoriesExists)
+                {
+                    ViewBag.message = "category Name Aready Exists";
+                    return View(category);
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
                 db.Entry(category).State = EntityState.Modified;

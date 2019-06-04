@@ -9,7 +9,9 @@
 
 </head>
 <body>
-
+    <div id="spinner-loader" class="spinner d-none">
+        <img src="~/Images/small-spinner.gif" alt="" />
+    </div>
     @Html.Partial("_NavbarPartial")
     <div class="container body-content">
         <div class="page">
@@ -23,6 +25,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/javaScript")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>

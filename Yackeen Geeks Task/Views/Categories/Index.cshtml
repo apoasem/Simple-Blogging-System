@@ -7,9 +7,22 @@
 
 <h2 class="text-center">Categories</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<div>
-    @Html.Partial("_CategoriesTablePartial", Model)
+<ul class="nav nav-tabs" id="categoriesTabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="allCategoriesTab" data-toggle="tab" href="#viewCategoriesTab">All Categories</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="categoryConfigTab" data-toggle="tab" href="#categoryTab">New Category</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="viewCategoriesTab">
+        <div id="categoriesTableContainer">
+            @Html.Partial("_CategoriesTablePartial", Model)
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="categoryTab">
+        @Html.Action("Create", "Categories")
+    </div>
 </div>

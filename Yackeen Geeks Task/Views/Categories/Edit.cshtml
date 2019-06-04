@@ -2,10 +2,8 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
-
-<h2>Edit</h2>
 
 
 @using (Html.BeginForm("Edit", "Categories", FormMethod.Post, new { onsubmit = "return postCategory(this)" } ))
@@ -13,8 +11,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Category</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
@@ -23,6 +19,11 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                @if (ViewBag.message != null)
+                {
+                    <p class="text-danger">@ViewBag.message</p>
+                }
             </div>
         </div>
 
@@ -44,16 +45,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-success text-light" onclick="renameTabTitle('categoryConfigTab', 'New Category'); refreshCategoryForm()">New Category</a>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

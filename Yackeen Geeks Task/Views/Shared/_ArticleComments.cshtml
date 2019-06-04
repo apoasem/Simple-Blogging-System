@@ -3,18 +3,24 @@
 @foreach (var comment in Model.CommentsList)
 {
     <div class="comment d-flex justify-content-between">
-        <div>
-            <h2>
-                @comment.VisitorName
-            </h2>
 
-            <p class="text-muted">
-                @comment.Date
-            </p>
+        <div class="d-flex">
+            <img src="~/Images/no-person.jpg" class="w-50 mr-5" />
 
-            <p class="lead">
-                @comment.Content
-            </p>
+            <div>
+                <h2>
+                    @comment.VisitorName
+                </h2>
+
+                <p class="text-muted">
+                    @comment.Date
+                </p>
+
+                <p class="lead">
+                    @comment.Content
+                </p>
+            </div>
+            
         </div>
         <div>
             <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-comment-id="@comment.Id" onclick="deleteComment(this);"></a>

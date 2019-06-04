@@ -15,7 +15,7 @@ namespace Yackeen_Geeks_Task.Controllers
     [Authorize(Roles = "Admins")]
     public class ArticlesController : Controller
     {
-        private ApplicationDbContext db;
+        private readonly ApplicationDbContext db;
 
         public ArticlesController()
         {

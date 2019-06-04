@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Yackeen_Geeks_Task.Models.Category>
 
+
 <table class="table table-bordered table-hover" id="categoriesTable">
     <thead>
         <tr>
@@ -30,15 +31,9 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    <a class="fa fa-edit fa-lg control-icon mr-1" href="@Url.Action("Edit", "Categories", new { id= item.Id })"></a>
-
-                    <a class="fa fa-info-circle text-info fa-lg control-icon mr-1" href="@Url.Action("Details", "Categories", new { id= item.Id })"></a>
+                    <a class="fa fa-edit fa-lg control-icon mr-1" onclick="renameTabTitle('categoryConfigTab', 'Edit Category'); redirectToEditCategoryTab('@Url.Action("Edit", "Categories", new { id = item.Id })')"></a>
 
                     <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-category-id="@item.Id" onclick="deleteCategory(this)"></a>
-
-                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    <a data-category-id="@item.Id" onclick="deleteCategory(this)">Delete</a>*@
                 </td>
             </tr>
         }
