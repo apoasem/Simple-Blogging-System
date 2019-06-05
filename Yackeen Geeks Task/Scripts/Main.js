@@ -119,8 +119,13 @@ function postArticle(form) {
 
     $.validator.unobtrusive.parse(form);
 
-    if ($(".imageFile").val() == "") {
-        $(".imageFileError").empty().append("The Image File is required");
+    if ($("#addArticleImageFile").val() == "") {
+        $("#addArticleImageFileError").empty().append("The Image File is required");
+        return false;
+    }
+
+    if ($("#editArticleImageFile").val() == "") {
+        $("#editArticleImageFileError").empty().append("The Image File is required");
         return false;
     }
 
@@ -135,14 +140,13 @@ function postArticle(form) {
             processData: false,
             contentType: false,
             success: function (response) {
-                alert(response);
                 console.log(response);
-                //$("#articlesTableContainer").html(response);
-                //$("#allArticlesTab").tab("show");
-                //renameTabTitle('articleConfigTab', 'New Article')
-                //refreshArticleForm(); // refresh the form
-                //$("#articlesTable").DataTable();
-                //$.notify("Article added successfully", "success");
+                $("#articlesTableContainer").html(response);
+                $("#allArticlesTab").tab("show");
+                renameTabTitle('articleConfigTab', 'New Article')
+                refreshArticleForm(); // refresh the form
+                $("#articlesTable").DataTable(); // refresh datatable
+                $.notify("Article added successfully", "success");
             },
             error: function () {
                 $.notify("Some thing went wrong!", "error");

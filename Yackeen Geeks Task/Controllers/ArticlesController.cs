@@ -102,7 +102,7 @@ namespace Yackeen_Geeks_Task.Controllers
         }
 
         // GET: Articles/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -135,9 +135,6 @@ namespace Yackeen_Geeks_Task.Controllers
 
             if (imageUrl != null)
             {
-                //var oldImagePath = article.ImageUrl;
-                //System.IO.File.Delete(Path.Combine(Server.MapPath("~/Uploads"), oldImagePath));
-
                 var fileName = Path.GetFileNameWithoutExtension(imageUrl.FileName) + DateTime.Now.ToLongDateString() + Path.GetExtension(imageUrl.FileName);
 
                 string path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
