@@ -1,18 +1,18 @@
-User can: 
+Admin can:
 
-i.    create tasks 
+i.   add article, assign category to each article he add 
 
-ii.   show details/Update/Delete/Search on tasks
+ii.  show details/update/delete articles 
 
-iii.  filter tasks by status (backlog, in progress, done) 
+iii.  add/update/delete articles 
 
-iv.  create subtasks for each task 
+Visitor can: 
 
-v. show details/Update/Delete/Search on subtasks of each task vii.  filter subtasks by status (backlog, in progress, done) 
+i. list the published articles 
 
-viii. filter subtasks by priority (low, mid, high) 
+ii.  add comments to the published articles 
 
-ix.  get detailed pie chart on done tasks 
+iii. filter articles by category 
 
 ============================================================================
 
