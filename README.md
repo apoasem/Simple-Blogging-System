@@ -14,7 +14,7 @@ viii. filter subtasks by priority (low, mid, high)
 
 ix.  get detailed pie chart on done tasks 
 
-=====================================================================================================================================
+============================================================================
 
 To build this project and make it up and running you just need to:
 
