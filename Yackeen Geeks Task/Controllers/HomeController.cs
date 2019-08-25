@@ -24,5 +24,15 @@ namespace Yackeen_Geeks_Task.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult Info()
+        {
+            return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

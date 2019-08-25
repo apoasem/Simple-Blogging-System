@@ -311,3 +311,87 @@ function deleteComment(comment) {
         }
     });
 }
+
+function login() {
+    $.ajax({
+        url: "/Account/Login",
+        method: "GET",
+        success: function (response) {
+            $("#loginFormContainer").html(response);
+        },
+        error: function () {
+            $.notify("Some thing went wrong!", "error");
+        }
+    });
+}
+
+function postlogin(form) {
+    $.validator.unobtrusive.parse(form);
+
+    if ($(form).valid()) {
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: form.action,
+            method: form.method,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.url;
+                } else {
+                    $("#loginFormContainer").html(response);
+                }
+            },
+            error: function () {
+                $.notify("Some thing went wrong!", "error");
+            }
+        });
+    }
+
+    return false;
+}
+
+
+function register() {
+    $.ajax({
+        url: "/Account/Register",
+        method: "GET",
+        success: function (response) {
+            $("#registerFormContainer").html(response);
+        },
+        error: function () {
+            $.notify("Some thing went wrong!", "error");
+        }
+    });
+}
+
+function postRegister(form) {
+    $.validator.unobtrusive.parse(form);
+
+    if ($(form).valid()) {
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: form.action,
+            method: form.method,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+
+                if (response.success) {
+                    window.location.href = response.url;
+                } else {
+                    $("#registerFormContainer").html(response);
+                }
+            },
+            error: function () {
+                $.notify("Some thing went wrong!", "error");
+            }
+        });
+    }
+
+    return false;
+}

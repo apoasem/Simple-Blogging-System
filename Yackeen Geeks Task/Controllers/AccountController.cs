@@ -1,13 +1,10 @@
-﻿using System;
-using System.Globalization;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using Yackeen_Geeks_Task.Models;
 
 namespace Yackeen_Geeks_Task.Controllers
@@ -22,7 +19,7 @@ namespace Yackeen_Geeks_Task.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +31,9 @@ namespace Yackeen_Geeks_Task.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -58,6 +55,17 @@ namespace Yackeen_Geeks_Task.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
+            if (Request.IsAjaxRequest())
+            {
+                //var viewmodel = new LoginViewModel
+                //{
+                //    LoginFromModal = true
+                //};
+
+                return PartialView("_loginFormPartial");
+            }
+
             return View();
         }
 
@@ -70,7 +78,21 @@ namespace Yackeen_Geeks_Task.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView("_loginFormPartial", model);
+            }
+
+            var user = await UserManager.FindByEmailAsync(model.Email);
+
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+
+                    return Json(new { success = true, url = Url.Action("Error", "Home") });
+
+                    //ViewBag.errorMessage = "Please Confirm Your Email Address";
+                    // return View("Error");
+                }
             }
 
             // This doesn't count login failures towards account lockout
@@ -79,7 +101,7 @@ namespace Yackeen_Geeks_Task.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl, true);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -87,7 +109,7 @@ namespace Yackeen_Geeks_Task.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return PartialView("_loginFormPartial", model);
             }
         }
 
@@ -120,7 +142,7 @@ namespace Yackeen_Geeks_Task.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -139,6 +161,11 @@ namespace Yackeen_Geeks_Task.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_RegisterFormPartial");
+            }
+
             return View();
         }
 
@@ -155,21 +182,21 @@ namespace Yackeen_Geeks_Task.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return Json(new { success = true, url = Url.Action("Info", "Home") });
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return PartialView("_RegisterFormPartial", model);
         }
 
         //
@@ -443,12 +470,18 @@ namespace Yackeen_Geeks_Task.Controllers
             }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        private ActionResult RedirectToLocal(string returnUrl, bool loginSuccess = false)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
+
+            if (loginSuccess)
+            {
+                return Json(new { success = true, url = Url.Action("Index", "Home") });
+            }
+
             return RedirectToAction("Index", "Home");
         }
 

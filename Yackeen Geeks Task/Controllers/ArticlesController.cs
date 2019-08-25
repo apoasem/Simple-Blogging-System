@@ -34,9 +34,19 @@ namespace Yackeen_Geeks_Task.Controllers
 
         [AllowAnonymous]
         // GET: Articles/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
             var article = db.Articles.Include(a => a.Author).Include(a => a.Category).SingleOrDefault(a => a.Id == id);
+
+            if (article == null)
+            {
+                return HttpNotFound();
+            }
 
             var comments = db.Comments.Where(c => c.ArticleId == article.Id).ToList();
 

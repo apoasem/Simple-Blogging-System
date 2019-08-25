@@ -1,10 +1,11 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using Owin.Security.Providers.GitHub;
+using System;
 using Yackeen_Geeks_Task.Models;
 
 namespace Yackeen_Geeks_Task
@@ -34,7 +35,7 @@ namespace Yackeen_Geeks_Task
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -54,15 +55,20 @@ namespace Yackeen_Geeks_Task
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "334448617247499",
+               appSecret: "1e1336389d2ea049bd1a804bb05f25ee");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "102609316834-t1urnvdmdp1m9cc3risitk7pfdbiimgn.apps.googleusercontent.com",
+                ClientSecret = "EqkDl7M1uzxNNMtMsrxiGs6m"
+            });
+
+            app.UseGitHubAuthentication(
+                clientId: "Iv1.01e39cc17fc95ae3",
+                clientSecret: "ed3e15ef59d063d932bbf4e812b605bdbaec489f"
+                );
         }
     }
 }
